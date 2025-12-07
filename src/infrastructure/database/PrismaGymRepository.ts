@@ -85,7 +85,7 @@ export class PrismaGymRepository implements IGymRepository {
         const gyms = await prisma.gym.findMany();
 
         return gyms.map(
-            (g) =>
+            (g: any) =>
                 new Gym(
                     g.id,
                     g.name,

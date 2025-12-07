@@ -59,7 +59,7 @@ export class PrismaUserRepository implements IUserRepository {
         const users = await prisma.user.findMany();
 
         return users.map(
-            (u) =>
+            (u: any) =>
                 new User(u.id, u.name, u.email, u.dateOfBirth, u.fitnessGoal)
         );
     }
