@@ -1,19 +1,109 @@
-# **API Testing Documentation**
-_All endpoints tested using Postman on `http://localhost:3000`._
 
-All screenshots stored in:
+# AMRAP API
+
+A backend API for managing gyms, users, and memberships.
+Built with Node.js, TypeScript, Express, Prisma, and SQLite using a Clean Architecture structure.
+
+---
+
+## Project Structure
 
 ```
-screenshots/
+src/
+ ├── domain/
+ │     ├── entities/
+ │     ├── repositories/
+ │
+ ├── application/
+ │     ├── dtos/
+ │     ├── use-cases/
+ │     └── errors/
+ │
+ ├── infrastructure/
+ │     ├── database/
+ │     └── prisma/
+ │
+ └── interface/
+       ├── http/
+       │     ├── controllers/
+       │     └── routes/
+       └── server.ts
 ```
 
 ---
 
-# 1️⃣ Create User  
-### **POST** `/users`
+## Setup Instructions
 
-**Body**
-```json
+### 1. Clone the repository
+
+```
+git clone <your-repo-url>
+cd amrap-gym-api
+```
+
+### 2. Install dependencies
+
+```
+npm install
+```
+
+### 3. Environment variables
+
+Create a `.env` file:
+
+```
+DATABASE_URL="file:./dev.db"
+PORT=3000
+```
+
+### 4. Run database migrations
+
+```
+npx prisma migrate dev --name init
+```
+
+### 5. Generate Prisma client
+
+```
+npx prisma generate
+```
+
+### 6. Run in development mode
+
+```
+npm run dev
+```
+
+Server runs at `http://localhost:3000`.
+
+### 7. Build and run production
+
+```
+npm run build
+npm start
+```
+
+---
+
+## How to Run Tests
+
+Tests use Jest + Supertest.
+
+```
+npm test
+```
+
+---
+
+## API Endpoints
+
+### Users
+
+**POST /users**
+Create a new user.
+Example body:
+
+```
 {
   "name": "Jhanvi",
   "email": "jhanvi@example.com",
@@ -22,42 +112,18 @@ screenshots/
 }
 ```
 
-**Response — 201**
-```json
-{
-  "id": "<uuid>",
-  "name": "Jhanvi",
-  "email": "jhanvi@example.com",
-  "dateOfBirth": "2003-01-01T00:00:00.000Z",
-  "fitnessGoal": "Lose weight"
-}
-```
+**GET /users**
+List all users.
 
 ---
 
-# 2️⃣ List Users  
-### **GET** `/users`
+### Gyms
 
-**Response — 200**
-```json
-[
-  {
-    "id": "<uuid>",
-    "name": "Jhanvi",
-    "email": "jhanvi@example.com",
-    "dateOfBirth": "2003-01-01T00:00:00.000Z",
-    "fitnessGoal": "Lose weight"
-  }
-]
+**POST /gyms**
+Create a gym.
+Example body:
+
 ```
-
----
-
-# 3️⃣ Create Gym  
-### **POST** `/gyms`
-
-**Body**
-```json
 {
   "name": "NEU Fitness",
   "type": "Strength",
@@ -66,145 +132,87 @@ screenshots/
 }
 ```
 
-**Response — 201**
-```json
-{
-  "id": "<uuid>",
-  "name": "NEU Fitness",
-  "type": "Strength",
-  "location": "Boston",
-  "maxCapacity": 20
-}
-```
+**GET /gyms**
+List all gyms.
+
+**GET /gyms/available/spots**
+List gyms sorted by available capacity (most spots first).
 
 ---
 
-# 4️⃣ List Gyms  
-### **GET** `/gyms`
+### Memberships
 
-**Response — 200**
-```json
-[
-  {
-    "id": "<uuid>",
-    "name": "NEU Fitness",
-    "type": "Strength",
-    "location": "Boston",
-    "maxCapacity": 20
-  }
-]
+**POST /memberships**
+Add a user to a gym.
+
 ```
-
----
-
-# 5️⃣ Add Membership  
-### **POST** `/memberships`
-
-**Body**
-```json
 {
   "userId": "<user-id>",
   "gymId": "<gym-id>"
 }
 ```
 
-**Response — 201**
-```json
+**DELETE /memberships**
+Remove a user from a gym.
+
+```
 {
-  "id": "<uuid>",
   "userId": "<user-id>",
-  "gymId": "<gym-id>",
-  "joinDate": "<ISO timestamp>"
+  "gymId": "<gym-id>"
 }
 ```
 
+**GET /users/:id/gyms**
+List all gyms a user belongs to.
+
+**GET /gyms/:id/users**
+List users in a gym, sorted by join date (newest first).
+
 ---
 
-# 6️⃣ User → All Gyms  
-### **GET** `/users/:id/gyms`
+## Deployment
 
-**Response — 200**
-```json
-[
-  {
-    "id": "<gym-id>",
-    "name": "NEU Fitness",
-    "type": "Strength",
-    "location": "Boston",
-    "maxCapacity": 20
-  }
-]
+### Local
+
+Build:
+
+```
+npm run build
 ```
 
----
+Start:
 
-# 7️⃣ Gym → All Users (sorted by joinDate DESC)  
-### **GET** `/gyms/:id/users`
+```
+npm start
+```
 
-**Response — 200**
-```json
-[
-  {
-    "id": "<user-id>",
-    "name": "Jhanvi",
-    "email": "jhanvi11@gmail.com",
-    "dateOfBirth": "2003-01-01T00:00:00.000Z",
-    "fitnessGoal": "Abs",
-    "joinDate": "<timestamp>"
-  }
-]
+### Cloud (Railway)
+
+Your deployed URL:
+
+```
+<YOUR_DEPLOYED_URL>
 ```
 
 ---
 
-# 8️⃣ Gyms With Available Spots  
-### **GET** `/gyms/available/spots`
+## Notes and Technical Choices
 
-**Response — 200**
-```json
-[
-  {
-    "id": "<gym-id>",
-    "name": "Boston Fitness",
-    "maxCapacity": 25,
-    "availableSpots": 24
-  }
-]
-```
+* The project follows Clean Architecture for clear separation between domain, application logic, infrastructure, and HTTP layers.
+* Prisma ORM is used for strongly typed database access.
+* SQLite is used for simplicity in local and cloud environments.
+* Use-cases contain business logic and are framework independent.
+* Controllers remain thin and only handle HTTP translation.
+* Membership logic includes capacity checks and join date sorting.
+* All endpoints were manually tested using Postman.
+  Screenshots are available in:
+  `docs/screenshots/`
 
 ---
 
-# 9️⃣ Update User  
-### **PATCH** `/users/:id`
+## Author
 
-**Body**
-```json
-{
-  "name": "Jhanvi Updated",
-  "email": "jhanvi11@gmail.com",
-  "fitnessGoal": "Abs"
-}
-```
+Jhanvi Patel
 
-**Response — 200**
-```json
-{
-  "id": "<uuid>",
-  "name": "Jhanvi Updated",
-  "email": "jhanvi11@gmail.com",
-  "dateOfBirth": "2003-01-01T00:00:00.000Z",
-  "fitnessGoal": "Abs"
-}
-```
 
----
-
-#  Screenshots
-All screenshots are included inside:
-
-```
-screenshots/
-```
-
- 
 
