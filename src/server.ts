@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import userRoutes from "@interface/http/routes/user.routes";
-import gymRoutes from "@interface/http/routes/gym.routes";
-import membershipRoutes from "@interface/http/routes/membership.routes";
+import userRoutes from "./interface/http/routes/user.routes";
+import gymRoutes from "./interface/http/routes/gym.routes";
+import membershipRoutes from "./interface/http/routes/membership.routes";
 
 
 const app = express();
