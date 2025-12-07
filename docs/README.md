@@ -68,6 +68,48 @@ npm start
 
 <hr/>
 
+<h2> How to Run Tests (Postman)</h2>
+
+<p>
+This project was manually tested using <strong>Postman</strong>.  
+All endpoints were validated for:
+</p>
+
+<ul>
+  <li>Correct request/response format</li>
+  <li>Validation errors</li>
+  <li>Membership capacity rules</li>
+  <li>Join-date ordering</li>
+</ul>
+
+<h3>Steps to run tests:</h3>
+
+<ol>
+  <li>Start the server:<br/>
+  <pre><code>npm run dev</code></pre></li>
+
+  <li>Open Postman and send requests to:<br/>
+  <pre>http://localhost:3000</pre></li>
+
+  <li>Use the following routes:</li>
+</ol>
+
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+  <tr><td>POST</td><td>/users</td><td>Create a user</td></tr>
+  <tr><td>POST</td><td>/gyms</td><td>Create a gym</td></tr>
+  <tr><td>POST</td><td>/memberships</td><td>Add user to gym</td></tr>
+  <tr><td>GET</td><td>/users</td><td>List all users</td></tr>
+  <tr><td>GET</td><td>/gyms</td><td>List all gyms</td></tr>
+  <tr><td>GET</td><td>/gyms/:id/users</td><td>Check members sorted by join date</td></tr>
+</table>
+
+<p>
+Postman test screenshots are available in the 
+<code>docs/screenshots/</code> folder.
+</p>
+
+
 <h2>API Documentation (Swagger)</h2>
 
 <table>
