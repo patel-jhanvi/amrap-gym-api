@@ -52,7 +52,7 @@ export class PrismaMembershipRepository implements IMembershipRepository {
         });
 
         return memberships.map(
-            (m) => new Membership(m.id, m.userId, m.gymId, m.joinDate)
+            (m: any) => new Membership(m.id, m.userId, m.gymId, m.joinDate)
         );
     }
 
@@ -61,8 +61,9 @@ export class PrismaMembershipRepository implements IMembershipRepository {
             where: { userId },
         });
 
+
         return memberships.map(
-            (m) => new Membership(m.id, m.userId, m.gymId, m.joinDate)
+            (m: any) => new Membership(m.id, m.userId, m.gymId, m.joinDate)
         );
     }
 
