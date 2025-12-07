@@ -4,10 +4,10 @@ import { PrismaGymRepository } from "@infrastructure/database/PrismaGymRepositor
 import { PrismaMembershipRepository } from "@infrastructure/database/PrismaMembershipRepository";
 import { PrismaUserRepository } from "@infrastructure/database/PrismaUserRepository";
 import { AppError } from "@application/errors/AppError";
+import { CreateGym } from "../../../application/use-cases/CreateGym";
+import { ListAvailableGyms } from "../../../application/use-cases/ListAvailableGyms";
+import { ListGymUsers } from "../../../application/use-cases/ListGymUsers";
 
-import { CreateGym } from "@application/use-cases/CreateGym";
-import { ListGymUsers } from "@application/use-cases/ListGymUsers";
-import { ListAvailableGyms } from "@application/use-cases/ListAvailableGyms";
 
 
 

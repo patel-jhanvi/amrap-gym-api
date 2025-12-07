@@ -3,10 +3,10 @@ import { Request, Response } from "express";
 import { PrismaMembershipRepository } from "@infrastructure/database/PrismaMembershipRepository";
 import { PrismaUserRepository } from "@infrastructure/database/PrismaUserRepository";
 import { PrismaGymRepository } from "@infrastructure/database/PrismaGymRepository";
-
-import { AddMembership } from "@application/use-cases/AddMembership";
-import { RemoveMembership } from "@application/use-cases/RemoveMembership";
 import { AppError } from "@application/errors/AppError";
+import { AddMembership } from "../../../application/use-cases/AddMembership";
+import { RemoveMembership } from "../../../application/use-cases/RemoveMembership";
+
 
 // Create repo instances (infrastructure layer)
 const membershipRepo = new PrismaMembershipRepository();

@@ -4,9 +4,9 @@ exports.MembershipController = void 0;
 const PrismaMembershipRepository_1 = require("@infrastructure/database/PrismaMembershipRepository");
 const PrismaUserRepository_1 = require("@infrastructure/database/PrismaUserRepository");
 const PrismaGymRepository_1 = require("@infrastructure/database/PrismaGymRepository");
-const AddMembership_1 = require("@application/use-cases/AddMembership");
-const RemoveMembership_1 = require("@application/use-cases/RemoveMembership");
 const AppError_1 = require("@application/errors/AppError");
+const AddMembership_1 = require("../../../application/use-cases/AddMembership");
+const RemoveMembership_1 = require("../../../application/use-cases/RemoveMembership");
 // Create repo instances (infrastructure layer)
 const membershipRepo = new PrismaMembershipRepository_1.PrismaMembershipRepository();
 const userRepo = new PrismaUserRepository_1.PrismaUserRepository();

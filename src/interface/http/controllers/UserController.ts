@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
-import { CreateUser } from "@application/use-cases/CreateUser";
+
 import { PrismaUserRepository } from "@infrastructure/database/PrismaUserRepository";
 import { PrismaGymRepository } from "@infrastructure/database/PrismaGymRepository";
 import { PrismaMembershipRepository } from "@infrastructure/database/PrismaMembershipRepository";
-import { ListUserGyms } from "@application/use-cases/ListUserGyms";
+
 import { AppError } from "@application/errors/AppError";
-import { UpdateUser } from "@application/use-cases/UpdateUser";
+import { CreateUser } from "../../../application/use-cases/CreateUser";
+import { UpdateUser } from "../../../application/use-cases/UpdateUser";
+import { ListUserGyms } from "../../../application/use-cases/ListUserGyms";
+
 
 const userRepo = new PrismaUserRepository();
 const membershipRepo = new PrismaMembershipRepository();

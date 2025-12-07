@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
-const CreateUser_1 = require("@application/use-cases/CreateUser");
 const PrismaUserRepository_1 = require("@infrastructure/database/PrismaUserRepository");
 const PrismaGymRepository_1 = require("@infrastructure/database/PrismaGymRepository");
 const PrismaMembershipRepository_1 = require("@infrastructure/database/PrismaMembershipRepository");
-const ListUserGyms_1 = require("@application/use-cases/ListUserGyms");
 const AppError_1 = require("@application/errors/AppError");
-const UpdateUser_1 = require("@application/use-cases/UpdateUser");
+const CreateUser_1 = require("../../../application/use-cases/CreateUser");
+const UpdateUser_1 = require("../../../application/use-cases/UpdateUser");
+const ListUserGyms_1 = require("../../../application/use-cases/ListUserGyms");
 const userRepo = new PrismaUserRepository_1.PrismaUserRepository();
 const membershipRepo = new PrismaMembershipRepository_1.PrismaMembershipRepository();
 const gymRepo = new PrismaGymRepository_1.PrismaGymRepository();
