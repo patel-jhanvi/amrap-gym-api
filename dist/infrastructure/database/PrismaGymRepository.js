@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrismaGymRepository = void 0;
-const Gym_1 = require("@domain/entities/Gym");
+const Gym_1 = require("../../domain/entities/Gym");
 const prisma_1 = require("./prisma");
 class PrismaGymRepository {
     async create(gym) {

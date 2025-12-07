@@ -1,9 +1,11 @@
-import { AddMembershipDTO } from "@application/dtos/AddMembershipDTO";
-import { IUserRepository } from "@domain/repositories/IUserRepository";
-import { IGymRepository } from "@domain/repositories/IGymRepository";
-import { IMembershipRepository } from "@domain/repositories/IMembershipRepository";
-import { Membership } from "@domain/entities/Membership";
-import { AppError } from "@application/errors/AppError";
+
+import { AddMembershipDTO } from "../../application/dtos/AddMembershipDTO";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { IGymRepository } from "../../domain/repositories/IGymRepository";
+import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
+import { Membership } from "../../domain/entities/Membership";
+import { AppError } from "../../application/errors/AppError";
+
 import { randomUUID } from "crypto";
 
 export class AddMembership {

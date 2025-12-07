@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 
-import { PrismaGymRepository } from "@infrastructure/database/PrismaGymRepository";
-import { PrismaMembershipRepository } from "@infrastructure/database/PrismaMembershipRepository";
-import { PrismaUserRepository } from "@infrastructure/database/PrismaUserRepository";
-import { AppError } from "@application/errors/AppError";
-import { CreateGym } from "../../../application/use-cases/CreateGym";
-import { ListAvailableGyms } from "../../../application/use-cases/ListAvailableGyms";
+import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
+import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
+import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
+
+import { AppError } from "../../../application/errors/AppError";
+
 import { ListGymUsers } from "../../../application/use-cases/ListGymUsers";
+import { ListAvailableGyms } from "../../../application/use-cases/ListAvailableGyms";
+import { CreateGym } from "../../../application/use-cases/CreateGym";
 
 
 

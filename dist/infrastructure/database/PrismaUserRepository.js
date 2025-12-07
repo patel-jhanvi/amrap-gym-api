@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrismaUserRepository = void 0;
-const User_1 = require("@domain/entities/User");
+const User_1 = require("../../domain/entities/User");
 const prisma_1 = require("./prisma");
 class PrismaUserRepository {
     async create(user) {

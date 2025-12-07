@@ -1,5 +1,5 @@
-import { IGymRepository } from "@domain/repositories/IGymRepository";
-import { Gym } from "@domain/entities/Gym";
+import { IGymRepository } from "../../domain/repositories/IGymRepository";
+import { Gym } from "../../domain/entities/Gym";
 import { prisma } from "./prisma";
 
 export class PrismaGymRepository implements IGymRepository {

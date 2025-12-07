@@ -1,7 +1,9 @@
-import { IGymRepository } from "@domain/repositories/IGymRepository";
-import { CreateGymDTO } from "@application/dtos/CreateGymDTO";
-import { Gym } from "@domain/entities/Gym";
-import { AppError } from "@application/errors/AppError";
+
+import { IGymRepository } from "../../domain/repositories/IGymRepository";
+import { CreateGymDTO } from "../../application/dtos/CreateGymDTO";
+import { Gym } from "../../domain/entities/Gym";
+
+import { AppError } from "../../application/errors/AppError";
 import { randomUUID } from "crypto";
 
 export class CreateGym {

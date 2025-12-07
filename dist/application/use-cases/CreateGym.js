@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateGym = void 0;
-const Gym_1 = require("@domain/entities/Gym");
-const AppError_1 = require("@application/errors/AppError");
+const Gym_1 = require("../../domain/entities/Gym");
+const AppError_1 = require("../../application/errors/AppError");
 const crypto_1 = require("crypto");
 class CreateGym {
     constructor(gymRepository) {

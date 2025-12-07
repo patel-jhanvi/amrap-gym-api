@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveMembership = void 0;
-const AppError_1 = require("@application/errors/AppError");
+const AppError_1 = require("../../application/errors/AppError");
 class RemoveMembership {
     constructor(membershipRepository, userRepository, gymRepository) {
         this.membershipRepository = membershipRepository;

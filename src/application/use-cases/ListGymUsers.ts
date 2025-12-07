@@ -1,6 +1,6 @@
-import { IMembershipRepository } from "@domain/repositories/IMembershipRepository";
-import { IUserRepository } from "@domain/repositories/IUserRepository";
-import { AppError } from "@application/errors/AppError";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
+import { AppError } from "../../application/errors/AppError";
 
 export class ListGymUsers {
     constructor(

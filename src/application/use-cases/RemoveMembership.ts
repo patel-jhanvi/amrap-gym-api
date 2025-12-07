@@ -1,7 +1,9 @@
-import { IMembershipRepository } from "@domain/repositories/IMembershipRepository";
-import { IUserRepository } from "@domain/repositories/IUserRepository";
-import { IGymRepository } from "@domain/repositories/IGymRepository";
-import { AppError } from "@application/errors/AppError";
+
+import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { IGymRepository } from "../../domain/repositories/IGymRepository";
+
+import { AppError } from "../../application/errors/AppError";
 
 export class RemoveMembership {
     constructor(

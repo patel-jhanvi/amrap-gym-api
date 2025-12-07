@@ -1,5 +1,5 @@
-import { IMembershipRepository } from "@domain/repositories/IMembershipRepository";
-import { IGymRepository } from "@domain/repositories/IGymRepository";
+import { IGymRepository } from "../../domain/repositories/IGymRepository";
+import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
 
 export class ListUserGyms {
     constructor(

@@ -1,7 +1,8 @@
-import { IUserRepository } from "@domain/repositories/IUserRepository";
-import { CreateUserDTO } from "@application/dtos/CreateUserDTO";
-import { User } from "@domain/entities/User";
-import { AppError } from "@application/errors/AppError";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { CreateUserDTO } from "../../application/dtos/CreateUserDTO";
+
+import { User } from "../../domain/entities/User";
+import { AppError } from "../../application/errors/AppError";
 import { randomUUID } from "crypto";
 
 export class CreateUser {

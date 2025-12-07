@@ -1,6 +1,6 @@
-import { IUserRepository } from "@domain/repositories/IUserRepository";
-import { AppError } from "@application/errors/AppError";
-import { User } from "@domain/entities/User";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { AppError } from "../../application/errors/AppError";
+import { User } from "../../domain/entities/User";
 
 export class UpdateUser {
     constructor(private userRepo: IUserRepository) { }

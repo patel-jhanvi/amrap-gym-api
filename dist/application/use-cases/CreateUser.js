@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUser = void 0;
-const User_1 = require("@domain/entities/User");
-const AppError_1 = require("@application/errors/AppError");
+const User_1 = require("../../domain/entities/User");
+const AppError_1 = require("../../application/errors/AppError");
 const crypto_1 = require("crypto");
 class CreateUser {
     constructor(userRepository) {

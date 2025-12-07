@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Gym = void 0;
 class Gym {
-    constructor(id, name, type, // "commercial" | "home" | "apartment" (we’ll validate later)
+    constructor(id, name, type, // "commercial" | "home" | "apartment" 
     location, maxCapacity) {
         this.id = id;
         this.name = name;

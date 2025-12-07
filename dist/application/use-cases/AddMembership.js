@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddMembership = void 0;
-const Membership_1 = require("@domain/entities/Membership");
-const AppError_1 = require("@application/errors/AppError");
+const Membership_1 = require("../../domain/entities/Membership");
+const AppError_1 = require("../../application/errors/AppError");
 const crypto_1 = require("crypto");
 class AddMembership {
     constructor(membershipRepository, userRepository, gymRepository) {

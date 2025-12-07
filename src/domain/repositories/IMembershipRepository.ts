@@ -1,4 +1,4 @@
-import { Membership } from "@domain/entities/Membership";
+import { Membership } from "../entities/Membership";
 export interface IMembershipRepository {
     create(membership: Membership): Promise<Membership>;
     deleteByUserAndGym(userId: string, gymId: string): Promise<void>;

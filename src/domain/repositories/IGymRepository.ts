@@ -1,4 +1,5 @@
-import { Gym } from "@domain/entities/Gym";
+
+import { Gym } from "../../domain/entities/Gym";
 export interface IGymRepository {
     create(gym: Gym): Promise<Gym>;
     findById(id: string): Promise<Gym | null>;

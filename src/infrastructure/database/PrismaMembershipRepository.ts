@@ -1,5 +1,5 @@
-import { IMembershipRepository } from "@domain/repositories/IMembershipRepository";
-import { Membership } from "@domain/entities/Membership";
+import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
+import { Membership } from "../../domain/entities/Membership";
 import { prisma } from "./prisma";
 
 export class PrismaMembershipRepository implements IMembershipRepository {

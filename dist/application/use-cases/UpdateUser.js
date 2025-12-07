@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUser = void 0;
-const AppError_1 = require("@application/errors/AppError");
-const User_1 = require("@domain/entities/User");
+const AppError_1 = require("../../application/errors/AppError");
+const User_1 = require("../../domain/entities/User");
 class UpdateUser {
     constructor(userRepo) {
         this.userRepo = userRepo;
