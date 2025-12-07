@@ -1,119 +1,156 @@
-AMRAP API
+<h1> AMRAP API</h1>
 
-A backend service for managing gyms, users, and memberships.
-Built with Node.js, TypeScript, Express, Prisma (SQLite), and structured using Clean Architecture for maintainability and clarity.
+<p>
+A backend service for managing <strong>gyms, users, and memberships</strong>, built using:
+</p>
 
-Project Structure
+<ul>
+  <li>Node.js</li>
+  <li>TypeScript</li>
+  <li>Express</li>
+  <li>Prisma ORM (SQLite)</li>
+  <li>Clean Architecture</li>
+  <li>Swagger (OpenAPI)</li>
+</ul>
+
+<hr/>
+
+<h2> Project Structure</h2>
+
+<pre>
 src/
- ├── domain/               # Entities and repository interfaces
- ├── application/          # Use-cases, DTOs, domain errors
- ├── infrastructure/       # Database, Prisma client, repository implementations
+ ├── domain/               # Entities & repository interfaces
+ ├── application/          # Use-cases, DTOs, business logic, errors
+ ├── infrastructure/       # Prisma client, DB, repository implementations
  └── interface/
-       └── http/           # Controllers, routes, server configuration
+       └── http/           # Controllers, routes, server config
+</pre>
 
-Setup Instructions
-1. Clone the repository
-git clone https://github.com/patel-jhanvi/amrap-gym-api.git
+<hr/>
+
+<h2>Setup Instructions</h2>
+
+<h3>1. Clone the Repository</h3>
+<pre><code>git clone https://github.com/patel-jhanvi/amrap-gym-api.git
 cd amrap-gym-api
+</code></pre>
 
-2. Install dependencies
-npm install
+<h3>2. Install Dependencies</h3>
+<pre><code>npm install
+</code></pre>
 
-3. Environment variables (local only)
-
-Create a .env file:
-
-DATABASE_URL="file:./prisma/dev.db"
+<h3>3. Environment Variables (.env)</h3>
+<pre><code>DATABASE_URL="file:./prisma/dev.db"
 PORT=3000
+</code></pre>
 
+<p><strong>Note:</strong> On Railway, <code>DATABASE_URL</code> is set in the dashboard.</p>
 
-On Railway, the DATABASE_URL is configured in the dashboard (not from .env).
+<h3>4. Run Prisma Migrations</h3>
+<pre><code>npx prisma migrate dev --name init
+</code></pre>
 
-4. Run database migrations
-npx prisma migrate dev --name init
+<h3>5. Generate Prisma Client</h3>
+<pre><code>npx prisma generate
+</code></pre>
 
-5. Generate Prisma Client
-npx prisma generate
+<h3>6. Start Development Server</h3>
+<pre><code>npm run dev
+</code></pre>
 
-6. Start development server
-npm run dev
+<p>Local server:</p>
+<pre>http://localhost:3000</pre>
 
-
-Server runs at:
-
-http://localhost:3000
-
-7. Build & start production server
-npm run build
+<h3>7. Build & Start Production</h3>
+<pre><code>npm run build
 npm start
+</code></pre>
 
-API Documentation (Swagger)
+<hr/>
 
-Interactive API docs available at:
+<h2>API Documentation (Swagger)</h2>
 
-https://amrap-gym-api-production.up.railway.app/docs
+<table>
+  <tr>
+    <th>Environment</th>
+    <th>URL</th>
+  </tr>
+  <tr>
+    <td>Local</td>
+    <td><a href="http://localhost:3000/docs">http://localhost:3000/docs</a></td>
+  </tr>
+  <tr>
+    <td>Production</td>
+    <td><a href="https://amrap-gym-api-production.up.railway.app/docs">https://amrap-gym-api-production.up.railway.app/docs</a></td>
+  </tr>
+</table>
 
+<hr/>
 
-Swagger is generated using swagger-ui-express and swagger-jsdoc.
-All routes include detailed OpenAPI annotations.
+<h2> API Endpoints</h2>
 
-API Endpoints
-Users
-POST   /users           # Create user
-GET    /users           # List users
-GET    /users/:id       # Get user by ID
-GET    /users/:id/gyms  # List gyms a user belongs to
-PUT    /users/:id       # Update user
+<h3>Users</h3>
 
-Gyms
-POST   /gyms                     # Create gym
-GET    /gyms                     # List gyms
-GET    /gyms/:id                 # Get gym by ID
-GET    /gyms/:id/users           # Users in a gym
-GET    /gyms/available/spots     # Gyms sorted by available capacity
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+  <tr><td>POST</td><td>/users</td><td>Create user</td></tr>
+  <tr><td>GET</td><td>/users</td><td>List users</td></tr>
+  <tr><td>GET</td><td>/users/:id</td><td>Get user by ID</td></tr>
+  <tr><td>GET</td><td>/users/:id/gyms</td><td>Gyms a user belongs to</td></tr>
+  <tr><td>PUT</td><td>/users/:id</td><td>Update a user</td></tr>
+</table>
 
-Memberships
-POST    /memberships     # Add user to gym
-DELETE  /memberships     # Remove user from gym
+<h3> Gyms</h3>
 
-Deployment
-Local
-npm run build
-npm start
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+  <tr><td>POST</td><td>/gyms</td><td>Create gym</td></tr>
+  <tr><td>GET</td><td>/gyms</td><td>List gyms</td></tr>
+  <tr><td>GET</td><td>/gyms/:id</td><td>Get gym</td></tr>
+  <tr><td>GET</td><td>/gyms/:id/users</td><td>Users in a gym</td></tr>
+  <tr><td>GET</td><td>/gyms/available/spots</td><td>Gyms sorted by free capacity</td></tr>
+</table>
 
-Production (Railway)
+<h3> Memberships</h3>
 
-Base URL:
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+  <tr><td>POST</td><td>/memberships</td><td>Add user to gym</td></tr>
+  <tr><td>DELETE</td><td>/memberships</td><td>Remove user from gym</td></tr>
+</table>
 
-https://amrap-gym-api-production.up.railway.app/
+<h4>Example Body:</h4>
+<pre><code>{
+  "userId": "<user-id>",
+  "gymId": "<gym-id>"
+}
+</code></pre>
 
+<hr/>
 
-Example:
+<h2> Deployment (Railway)</h2>
 
-GET https://amrap-gym-api-production.up.railway.app/users
+<p><strong>Production Base URL:</strong></p>
+<pre><a href="https://amrap-gym-api-production.up.railway.app">https://amrap-gym-api-production.up.railway.app</a></pre>
 
-Technical Decisions
+<p><strong>Example:</strong></p>
+<pre>GET https://amrap-gym-api-production.up.railway.app/users</pre>
 
-Clean Architecture with clear domain, application, infrastructure, and interface layers
+<hr/>
 
-Prisma ORM for type-safe database access
+<h2>Technical Decisions</h2>
 
-SQLite for simple local + cloud compatibility
+<ul>
+  <li><strong>Clean Architecture:</strong> strict separation of domain, application, infrastructure, interface</li>
+  <li><strong>Prisma ORM:</strong> type-safe schema, migrations, query validation</li>
+  <li><strong>SQLite:</strong> lightweight & Railway-compatible</li>
+  <li><strong>Business logic in use-cases:</strong> capacity checks, join-date ordering</li>
+  <li><strong>Controllers remain thin:</strong> only HTTP translation</li>
+  <li><strong>Manual Postman testing:</strong> validated all endpoints</li>
+</ul>
 
-Use-cases contain all business logic
+<hr/>
 
-Controllers remain thin and framework-only
+<h2>Author</h2>
 
-Membership rules:
-
-Capacity validation
-
-Join-date sorting
-
-Swagger documentation for all routes
-
-Postman validation for every endpoint
-
-Author
-
-Jhanvi Patel
+<p><strong>Jhanvi Patel</strong></p>
