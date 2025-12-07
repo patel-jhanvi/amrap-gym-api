@@ -5,38 +5,37 @@ Date: Dec 2025
 Author: Jhanvi Patel  
 Status: All endpoints successfully tested ✔
 
----
+Test Summary
+Endpoint	Method	Status	Screenshot
+Create User	POST /users	201	(screenshot in docs/screenshots/)
+List Users	GET /users	200	(screenshot)
+Create Gym	POST /gyms	201	(screenshot)
+List Gyms	GET /gyms	200	(screenshot)
+Add Membership	POST /memberships	201	(screenshot)
+User's Gyms	GET /users/:id/gyms	200	(screenshot)
+Gym Users (sorted by join date)	GET /gyms/:id/users	200	(screenshot)
+Available Gyms	GET /gyms/available/spots	200	(screenshot)
+Update User	PUT /users/:id	200	(screenshot)
 
-# 📌 Test Summary
+All screenshots are stored in:
+docs/screenshots/
 
-| Endpoint | Method | Status | Screenshot |
-|---------|--------|--------|-------------|
-| Create User | POST `/users` | ✔ 201 | create_user.png |
-| List Users | GET `/users` | ✔ 200 | list_users.png |
-| Create Gym | POST `/gyms` | ✔ 201 | create_gym.png |
-| List Gyms | GET `/gyms` | ✔ 200 | list_gyms.png |
-| Add Membership | POST `/memberships` | ✔ 201 | add_membership.png |
-| User's Gyms | GET `/users/:id/gyms` | ✔ 200 | user_gyms.png |
-| Available Gyms | GET `/gyms/available/spots` | ✔ 200 | available_spots.png |
-| Update User | PUT `/users/:id` | ✔ 200 | update_user.png |
+1. Create User
 
----
-ALL SCREENSHOTS are in doc/screenshots/*
-# 1️⃣ **Create User**
-### **POST** `/users`
+POST /users
 
-#### Request Body
-```json
+Request:
+
 {
   "name": "Jhanvi",
   "email": "jhanvi@example.com",
   "dateOfBirth": "2003-01-01",
   "fitnessGoal": "Lose weight"
 }
-```
 
-#### Expected Response — 201 Created
-```json
+
+Expected 201 Response:
+
 {
   "id": "<uuid>",
   "name": "Jhanvi",
@@ -45,14 +44,12 @@ ALL SCREENSHOTS are in doc/screenshots/*
   "fitnessGoal": "Lose weight"
 }
 
+2. List Users
 
----
+GET /users
 
-# 2️⃣ **List Users**
-### **GET** `/users`
+Expected 200 Response:
 
-#### Expected Response — 200 OK
-```json
 [
   {
     "id": "<uuid>",
@@ -63,24 +60,22 @@ ALL SCREENSHOTS are in doc/screenshots/*
   }
 ]
 
+3. Create Gym
 
----
+POST /gyms
 
-# 3️⃣ **Create Gym**
-### **POST** `/gyms`
+Request:
 
-#### Request Body
-```json
 {
   "name": "NEU Fitness",
   "type": "Strength",
   "location": "Boston",
   "maxCapacity": 20
 }
-```
 
-#### Expected Response — 201 Created
-```json
+
+Expected 201 Response:
+
 {
   "id": "<uuid>",
   "name": "NEU Fitness",
@@ -88,17 +83,13 @@ ALL SCREENSHOTS are in doc/screenshots/*
   "location": "Boston",
   "maxCapacity": 20
 }
-```
 
+4. List Gyms
 
+GET /gyms
 
----
+Expected 200 Response:
 
-# 4️⃣ **List Gyms**
-### **GET** `/gyms`
-
-#### Expected Response — 200 OK
-```json
 [
   {
     "id": "<uuid>",
@@ -108,40 +99,34 @@ ALL SCREENSHOTS are in doc/screenshots/*
     "maxCapacity": 20
   }
 ]
-```
 
+5. Add Membership
 
+POST /memberships
 
----
+Request:
 
-# 5️⃣ **Add Membership**
-### **POST** `/memberships`
-
-#### Request Body
-```json
 {
-  "userId": "<existing-user-id>",
-  "gymId": "<existing-gym-id>"
+  "userId": "<user-id>",
+  "gymId": "<gym-id>"
 }
-```
 
-#### Expected Response — 201 Created
-```json
+
+Expected 201 Response:
+
 {
   "id": "<uuid>",
   "userId": "<user-id>",
   "gymId": "<gym-id>",
   "joinDate": "<timestamp>"
 }
-```
 
----
+6. List All Gyms of a User
 
-# 6️⃣ **List All Gyms of a User**
-### **GET** `/users/:id/gyms`
+GET /users/:id/gyms
 
-#### Expected Response — 200 OK
-```json
+Expected 200 Response:
+
 [
   {
     "id": "<gym-id>",
@@ -151,17 +136,31 @@ ALL SCREENSHOTS are in doc/screenshots/*
     "maxCapacity": 20
   }
 ]
-```
+
+7. List All Users of a Gym (sorted by join date)
+
+GET /gyms/:id/users
+
+Expected 200 Response:
+
+[
+  {
+    "userId": "<user-id>",
+    "name": "Jhanvi",
+    "email": "jhanvi@example.com",
+    "joinDate": "<timestamp>"
+  }
+]
 
 
+(The backend sorts descending by joinDate.)
 
----
+8. List Available Gyms (capacity remaining)
 
-# 7️⃣ **List Available Gyms (Capacity Remaining)**
-### **GET** `/gyms/available/spots`
+GET /gyms/available/spots
 
-#### Expected Response — 200 OK
-```json
+Expected 200 Response:
+
 [
   {
     "id": "<gym-id>",
@@ -169,26 +168,22 @@ ALL SCREENSHOTS are in doc/screenshots/*
     "availableSpots": <number>
   }
 ]
-```
 
+9. Update User
 
+PUT /users/:id
 
----
+Request:
 
-# 8️⃣ **Update User**
-### **PUT** `/users/:id`
-
-#### Request Body
-```json
 {
   "name": "Jhanvi Updated",
   "email": "jhanvi_new@example.com",
   "fitnessGoal": "Build Muscle"
 }
-```
 
-#### Expected Response — 200 OK
-```json
+
+Expected 200 Response:
+
 {
   "id": "<uuid>",
   "name": "Jhanvi Updated",
@@ -196,21 +191,14 @@ ALL SCREENSHOTS are in doc/screenshots/*
   "dateOfBirth": "2003-01-01T00:00:00.000Z",
   "fitnessGoal": "Build Muscle"
 }
-```
 
+Notes
 
----
+All endpoints returned correct status codes and validation.
 
-# Note
+Join-date sorting, capacity calculation, and membership business rules were verified.
 
-All endpoints returned correct:
+API behavior matches the Clean Architecture use-case flow.
 
-- Status codes  
-- Validation  
-- Error handling  
-- Clean Architecture use-case flow  
-- Prisma DB updates  
-- Membership logic  
-- Capacity check logic  
+All database updates were validated through Prisma Studio and Postman.
 
-This API passed full functional testing successfully.
