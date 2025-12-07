@@ -1,138 +1,83 @@
 AMRAP API
 
-A backend API for managing gyms, users, and memberships.
-Built with Node.js, TypeScript, Express, Prisma, and SQLite using a Clean Architecture structure.
+A backend service for managing gyms, users, and memberships.
+Built with Node.js, TypeScript, Express, Prisma (SQLite) and structured using Clean Architecture to ensure separation of concerns and maintainable code.
 
 Project Structure
 src/
- ├── domain/
- │     ├── entities/
- │     ├── repositories/
- │
- ├── application/
- │     ├── dtos/
- │     ├── use-cases/
- │     └── errors/
- │
- ├── infrastructure/
- │     ├── database/
- │     └── prisma/
- │
+ ├── domain/               # Entities and repository interfaces
+ ├── application/          # Use-cases, DTOs, domain errors
+ ├── infrastructure/       # Database, Prisma client, repository implementations
  └── interface/
-       ├── http/
-       │     ├── controllers/
-       │     └── routes/
-       └── server.ts
+       └── http/           # Controllers, routes, server configuration
+
+
+This structure cleanly separates domain logic from HTTP, persistence, and frameworks.
 
 Setup Instructions
 1. Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/patel-jhanvi/amrap-gym-api.git
 cd amrap-gym-api
 
 2. Install dependencies
 npm install
 
-3. Environment variables
+3. Environment variables (local only)
 
-Create a .env file for local development:
+Create a .env file:
 
 DATABASE_URL="file:./prisma/dev.db"
 PORT=3000
 
 
-Note: On Railway, the DATABASE_URL is configured in the dashboard and not read from this file.
+On Railway, the DATABASE_URL is configured directly in the environment variables section.
 
 4. Run database migrations
 npx prisma migrate dev --name init
 
-5. Generate Prisma client
+5. Generate Prisma Client
 npx prisma generate
 
-6. Run in development mode
+6. Start development server
 npm run dev
 
 
-Server runs at:
+App runs at:
 
 http://localhost:3000
 
-7. Build and run production
+7. Build & start production server
 npm run build
 npm start
-
-How to Run Tests
-
-Uses Jest + Supertest:
-
-npm test
 
 API Endpoints
 Users
 
-POST /users
-Create a new user.
-
-Example:
-
-{
-  "name": "Jhanvi",
-  "email": "jhanvi@example.com",
-  "dateOfBirth": "2003-01-01",
-  "fitnessGoal": "Lose weight"
-}
-
-
-GET /users
-List all users.
+POST /users — Create user
+GET /users — List users
+GET /users/:id — Get user by ID
+GET /users/:id/gyms — List gyms a user belongs to
+PUT /users/:id — Update a user
 
 Gyms
 
-POST /gyms
-
-{
-  "name": "NEU Fitness",
-  "type": "Strength",
-  "location": "Boston",
-  "maxCapacity": 20
-}
-
-
-GET /gyms
-List gyms.
-
-GET /gyms/available/spots
-List gyms sorted by available capacity.
+POST /gyms — Create gym
+GET /gyms — List gyms
+GET /gyms/:id — Get gym by ID
+GET /gyms/:id/users — Users in a gym
+GET /gyms/available/spots — Gyms sorted by available capacity
 
 Memberships
 
-POST /memberships
-
-{
-  "userId": "<user-id>",
-  "gymId": "<gym-id>"
-}
-
-
-DELETE /memberships
-
-{
-  "userId": "<user-id>",
-  "gymId": "<gym-id>"
-}
-
-
-GET /users/:id/gyms
-List all gyms a user belongs to.
-
-GET /gyms/:id/users
-List users in a gym sorted by join date (newest first).
+POST /memberships — Add user to gym
+DELETE /memberships — Remove user from gym
 
 Deployment
 Local
 npm run build
 npm start
 
-Cloud (Railway)
+Production (Railway)
 
 Base URL:
 
@@ -143,19 +88,19 @@ Example:
 
 GET https://amrap-gym-api-production.up.railway.app/users
 
-Notes and Technical Choices
+Notes & Technical Decisions
 
-Clean Architecture for separation of concerns (domain, application, infrastructure, interface).
+Clean Architecture: Business logic lives in use-cases; controllers remain thin.
 
-Prisma ORM for typed and reliable DB access.
+Prisma ORM: Strongly typed schema with migrations and query safety.
 
-SQLite chosen for simplicity and portability.
+SQLite: Simple, portable database for local and cloud environments.
 
-Business logic lives in use-cases, keeping controllers thin.
+Domain-first design: Entities, repository interfaces, and use-cases enforce separation of concerns.
 
-Membership logic includes capacity checks and join date ordering.
+Membership logic: Capacity validation and join-date ordering implemented in use-cases.
 
-All endpoints validated using Postman (screenshots available in docs/screenshots/).
+Testing: Endpoints manually validated with Postman.
 
 Author
 
