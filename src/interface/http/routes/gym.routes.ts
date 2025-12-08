@@ -1,8 +1,16 @@
 import { Router } from "express";
 import { GymController } from "../controllers/GymController";
+import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
+import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
+import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
 
+const gymRepo = new PrismaGymRepository();
+const membershipRepo = new PrismaMembershipRepository();
+const userRepo = new PrismaUserRepository();
+
+const controller = new GymController(gymRepo, membershipRepo, userRepo);
 const router = Router();
-const controller = new GymController();
+
 
 /**
  * @swagger

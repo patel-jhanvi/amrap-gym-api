@@ -5,6 +5,6 @@ export class User {
         public email: string,
         public dateOfBirth: Date,
         public fitnessGoal: string,
-        public joinDate?: Date
+
     ) { }
 }

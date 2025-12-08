@@ -24,18 +24,29 @@ export class ListAvailableGyms {
                 const available = gym.maxCapacity - count;
 
                 return {
-                    ...gym,
+                    id: gym.id,
+                    name: gym.name,
+                    type: gym.type,
+                    location: gym.location,
+                    maxCapacity: gym.maxCapacity,
                     availableSpots: available,
+
                 };
             })
         );
 
-        // filter out nulls & gyms with no available spots
         const filtered = gymsWithAvailability.filter(
-            (g): g is { id: string; name: string; type: string; location: string | null; maxCapacity: number | null; availableSpots: number } =>
-                g !== null && g.availableSpots > 0
+            (
+                g
+            ): g is {
+                id: string;
+                name: string;
+                type: string;
+                location: string | null;
+                maxCapacity: number;
+                availableSpots: number;
+            } => g !== null && g.availableSpots > 0
         );
-
 
         return filtered.sort((a, b) => b.availableSpots - a.availableSpots);
     }

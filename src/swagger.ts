@@ -12,10 +12,11 @@ export function setupSwagger(app: Express) {
                 description: "API documentation for AMRAP challenge",
             },
         },
-        apis: ["./src/interface/http/routes/*.ts"], // Path to route files
+        apis: ["./src/interface/http/routes/*.ts"],
     };
 
     const swaggerSpec = swaggerJSDoc(options);
 
-    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    // fix for express-v5
+    (app as any).use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }

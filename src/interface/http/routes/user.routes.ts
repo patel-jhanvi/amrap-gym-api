@@ -1,8 +1,17 @@
 import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 
+import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
+import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
+import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
+
+const userRepo = new PrismaUserRepository();
+const membershipRepo = new PrismaMembershipRepository();
+const gymRepo = new PrismaGymRepository();
+
+const controller = new UserController(userRepo, membershipRepo, gymRepo);
+
 const router = Router();
-const controller = new UserController();
 
 /**
  * @swagger

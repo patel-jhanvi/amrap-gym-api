@@ -1,9 +1,19 @@
 import { Router } from "express";
 import { MembershipController } from "../controllers/MembershipController";
+import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
+import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
+import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
+
+const membershipRepo = new PrismaMembershipRepository();
+const userRepo = new PrismaUserRepository();
+const gymRepo = new PrismaGymRepository();
 
 const router = Router();
-const controller = new MembershipController();
-
+const controller = new MembershipController(
+    membershipRepo,
+    userRepo,
+    gymRepo
+);
 /**
  * @swagger
  * tags:

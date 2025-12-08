@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 
-import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
-import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
-import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
+
+
+import { IGymRepository } from "../../../domain/repositories/IGymRepository";
+import { IMembershipRepository } from "../../../domain/repositories/IMembershipRepository";
+import { IUserRepository } from "../../../domain/repositories/IUserRepository";
+
 
 import { AppError } from "../../../application/errors/AppError";
 
@@ -13,18 +16,17 @@ import { CreateGym } from "../../../application/use-cases/CreateGym";
 
 
 
-const gymRepo = new PrismaGymRepository();
-const membershipRepo = new PrismaMembershipRepository();
-const userRepo = new PrismaUserRepository();
-
-
 export class GymController {
-
+    constructor(
+        private gymRepo: IGymRepository,
+        private membershipRepo: IMembershipRepository,
+        private userRepo: IUserRepository
+    ) { }
     async create(req: Request, res: Response) {
         try {
             const { name, type, location, maxCapacity } = req.body;
 
-            const useCase = new CreateGym(gymRepo);
+            const useCase = new CreateGym(this.gymRepo);
 
             const gym = await useCase.execute({
                 name,
@@ -47,7 +49,7 @@ export class GymController {
 
     async list(req: Request, res: Response) {
         try {
-            const gyms = await gymRepo.findAll();
+            const gyms = await this.gymRepo.findAll();
             return res.json(gyms);
         } catch (err: any) {
             return res.status(500).json({ error: err.message });
@@ -57,7 +59,7 @@ export class GymController {
 
     async get(req: Request, res: Response) {
         try {
-            const gym = await gymRepo.findById(req.params.id);
+            const gym = await this.gymRepo.findById(req.params.id);
 
             if (!gym) {
                 return res.status(404).json({ error: "Gym not found" });
@@ -73,7 +75,7 @@ export class GymController {
 
     async listUsers(req: Request, res: Response) {
         try {
-            const useCase = new ListGymUsers(membershipRepo, userRepo);
+            const useCase = new ListGymUsers(this.membershipRepo, this.userRepo);
             const users = await useCase.execute(req.params.id);
 
             return res.json(users);
@@ -90,7 +92,7 @@ export class GymController {
 
     async listAvailable(req: Request, res: Response) {
         try {
-            const useCase = new ListAvailableGyms(gymRepo, membershipRepo);
+            const useCase = new ListAvailableGyms(this.gymRepo, this.membershipRepo);
             const gyms = await useCase.execute();
 
             return res.json(gyms);
