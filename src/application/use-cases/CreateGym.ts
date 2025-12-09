@@ -1,13 +1,17 @@
-
+import { injectable, inject } from "tsyringe";
 import { IGymRepository } from "../../domain/repositories/IGymRepository";
 import { CreateGymDTO } from "../../application/dtos/CreateGymDTO";
 import { Gym } from "../../domain/entities/Gym";
+import { TOKENS } from "../../infrastructure/di/tokens";
 
 import { AppError } from "../../application/errors/AppError";
 import { randomUUID } from "crypto";
 
+@injectable()
 export class CreateGym {
-    constructor(private gymRepository: IGymRepository) { }
+    constructor(
+        @inject(TOKENS.GymRepository) private gymRepository: IGymRepository
+    ) { }
 
     async execute(data: CreateGymDTO): Promise<Gym> {
         // Check if a gym with the same name already exists 

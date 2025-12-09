@@ -1,15 +1,16 @@
-
+import { injectable, inject } from "tsyringe";
 import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { IGymRepository } from "../../domain/repositories/IGymRepository";
-
 import { AppError } from "../../application/errors/AppError";
+import { TOKENS } from "../../infrastructure/di/tokens";
 
+@injectable()
 export class RemoveMembership {
     constructor(
-        private membershipRepository: IMembershipRepository,
-        private userRepository: IUserRepository,
-        private gymRepository: IGymRepository
+        @inject(TOKENS.MembershipRepository) private membershipRepository: IMembershipRepository,
+        @inject(TOKENS.UserRepository) private userRepository: IUserRepository,
+        @inject(TOKENS.GymRepository) private gymRepository: IGymRepository
     ) { }
 
     async execute(userId: string, gymId: string): Promise<void> {

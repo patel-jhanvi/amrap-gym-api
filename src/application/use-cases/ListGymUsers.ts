@@ -1,11 +1,14 @@
+import { injectable, inject } from "tsyringe";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
 import { AppError } from "../../application/errors/AppError";
+import { TOKENS } from "../../infrastructure/di/tokens";
 
+@injectable()
 export class ListGymUsers {
     constructor(
-        private membershipRepository: IMembershipRepository,
-        private userRepository: IUserRepository
+        @inject(TOKENS.MembershipRepository) private membershipRepository: IMembershipRepository,
+        @inject(TOKENS.UserRepository) private userRepository: IUserRepository
     ) { }
 
     async execute(gymId: string) {

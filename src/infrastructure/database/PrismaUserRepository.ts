@@ -1,7 +1,9 @@
+import { injectable } from "tsyringe";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { User } from "../../domain/entities/User";
 import { prisma } from "./prisma";
 
+@injectable()
 export class PrismaUserRepository implements IUserRepository {
     async create(user: User): Promise<User> {
         const created = await prisma.user.create({

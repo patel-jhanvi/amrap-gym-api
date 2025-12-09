@@ -1,7 +1,9 @@
+import { injectable } from "tsyringe";
 import { IGymRepository } from "../../domain/repositories/IGymRepository";
 import { Gym } from "../../domain/entities/Gym";
 import { prisma } from "./prisma";
 
+@injectable()
 export class PrismaGymRepository implements IGymRepository {
     async create(gym: Gym): Promise<Gym> {
         const created = await prisma.gym.create({

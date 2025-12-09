@@ -1,18 +1,20 @@
-
+import { injectable, inject } from "tsyringe";
 import { AddMembershipDTO } from "../../application/dtos/AddMembershipDTO";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { IGymRepository } from "../../domain/repositories/IGymRepository";
 import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
 import { Membership } from "../../domain/entities/Membership";
 import { AppError } from "../../application/errors/AppError";
+import { TOKENS } from "../../infrastructure/di/tokens";
 
 import { randomUUID } from "crypto";
 
+@injectable()
 export class AddMembership {
     constructor(
-        private membershipRepository: IMembershipRepository,
-        private userRepository: IUserRepository,
-        private gymRepository: IGymRepository
+        @inject(TOKENS.MembershipRepository) private membershipRepository: IMembershipRepository,
+        @inject(TOKENS.UserRepository) private userRepository: IUserRepository,
+        @inject(TOKENS.GymRepository) private gymRepository: IGymRepository
     ) { }
 
     async execute(data: AddMembershipDTO): Promise<Membership> {

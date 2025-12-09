@@ -1,10 +1,13 @@
+import { injectable, inject } from "tsyringe";
 import { IGymRepository } from "../../domain/repositories/IGymRepository";
 import { IMembershipRepository } from "../../domain/repositories/IMembershipRepository";
+import { TOKENS } from "../../infrastructure/di/tokens";
 
+@injectable()
 export class ListUserGyms {
     constructor(
-        private membershipRepository: IMembershipRepository,
-        private gymRepository: IGymRepository
+        @inject(TOKENS.MembershipRepository) private membershipRepository: IMembershipRepository,
+        @inject(TOKENS.GymRepository) private gymRepository: IGymRepository
     ) { }
 
     async execute(userId: string) {

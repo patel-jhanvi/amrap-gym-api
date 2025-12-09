@@ -1,34 +1,27 @@
-import { Request, Response } from "express";
+import { injectable, inject } from "tsyringe";
+import { Request, Response, NextFunction } from "express";
+import { TOKENS } from "../../../infrastructure/di/tokens";
 
-
-
-import { IGymRepository } from "../../../domain/repositories/IGymRepository";
-import { IMembershipRepository } from "../../../domain/repositories/IMembershipRepository";
-import { IUserRepository } from "../../../domain/repositories/IUserRepository";
-
-
-import { AppError } from "../../../application/errors/AppError";
-
+import { CreateGym } from "../../../application/use-cases/CreateGym";
 import { ListGymUsers } from "../../../application/use-cases/ListGymUsers";
 import { ListAvailableGyms } from "../../../application/use-cases/ListAvailableGyms";
-import { CreateGym } from "../../../application/use-cases/CreateGym";
 
+import { IGymRepository } from "../../../domain/repositories/IGymRepository";
 
-
-
+@injectable()
 export class GymController {
     constructor(
-        private gymRepo: IGymRepository,
-        private membershipRepo: IMembershipRepository,
-        private userRepo: IUserRepository
+        @inject(TOKENS.CreateGym) private createGymUseCase: CreateGym,
+        @inject(TOKENS.ListGymUsers) private listGymUsersUseCase: ListGymUsers,
+        @inject(TOKENS.ListAvailableGyms) private listAvailableGymsUseCase: ListAvailableGyms,
+        @inject(TOKENS.GymRepository) private gymRepo: IGymRepository
     ) { }
-    async create(req: Request, res: Response) {
+
+    async create(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, type, location, maxCapacity } = req.body;
 
-            const useCase = new CreateGym(this.gymRepo);
-
-            const gym = await useCase.execute({
+            const gym = await this.createGymUseCase.execute({
                 name,
                 type,
                 location,
@@ -36,28 +29,21 @@ export class GymController {
             });
 
             return res.status(201).json(gym);
-
         } catch (err: any) {
-            if (err instanceof AppError) {
-                return res.status(err.statusCode).json({ error: err.message });
-            }
-
-            return res.status(500).json({ error: "Internal server error" });
+            next(err);
         }
     }
 
-
-    async list(req: Request, res: Response) {
+    async list(req: Request, res: Response, next: NextFunction) {
         try {
             const gyms = await this.gymRepo.findAll();
             return res.json(gyms);
         } catch (err: any) {
-            return res.status(500).json({ error: err.message });
+            next(err);
         }
     }
 
-
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response, next: NextFunction) {
         try {
             const gym = await this.gymRepo.findById(req.params.id);
 
@@ -66,40 +52,26 @@ export class GymController {
             }
 
             return res.json(gym);
-
         } catch (err: any) {
-            return res.status(500).json({ error: err.message });
+            next(err);
         }
     }
 
-
-    async listUsers(req: Request, res: Response) {
+    async listUsers(req: Request, res: Response, next: NextFunction) {
         try {
-            const useCase = new ListGymUsers(this.membershipRepo, this.userRepo);
-            const users = await useCase.execute(req.params.id);
-
+            const users = await this.listGymUsersUseCase.execute(req.params.id);
             return res.json(users);
-
         } catch (err: any) {
-            if (err instanceof AppError) {
-                return res.status(err.statusCode).json({ error: err.message });
-            }
-
-            return res.status(500).json({ error: "Internal server error" });
+            next(err);
         }
     }
 
-
-    async listAvailable(req: Request, res: Response) {
+    async listAvailable(req: Request, res: Response, next: NextFunction) {
         try {
-            const useCase = new ListAvailableGyms(this.gymRepo, this.membershipRepo);
-            const gyms = await useCase.execute();
-
+            const gyms = await this.listAvailableGymsUseCase.execute();
             return res.json(gyms);
-
         } catch (err: any) {
-            return res.status(500).json({ error: "Internal server error" });
+            next(err);
         }
     }
-
 }

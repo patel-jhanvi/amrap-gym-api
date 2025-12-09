@@ -1,16 +1,11 @@
 import { Router } from "express";
+import { container } from "../../../infrastructure/di/container";
 import { GymController } from "../controllers/GymController";
-import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
-import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
-import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
 
-const gymRepo = new PrismaGymRepository();
-const membershipRepo = new PrismaMembershipRepository();
-const userRepo = new PrismaUserRepository();
-
-const controller = new GymController(gymRepo, membershipRepo, userRepo);
 const router = Router();
 
+// Resolve controller from DI container
+const controller = container.resolve(GymController);
 
 /**
  * @swagger
@@ -18,6 +13,18 @@ const router = Router();
  *   name: Gyms
  *   description: Gym management
  */
+
+/**
+ * @swagger
+ * /gyms/available/spots:
+ *   get:
+ *     summary: List gyms with available spots
+ *     tags: [Gyms]
+ *     responses:
+ *       200:
+ *         description: Gyms sorted by remaining capacity
+ */
+router.get("/available/spots", (req, res, next) => controller.listAvailable(req, res, next));
 
 /**
  * @swagger
@@ -40,7 +47,7 @@ const router = Router();
  *       201:
  *         description: Gym created successfully
  */
-router.post("/", (req, res) => controller.create(req, res));
+router.post("/", (req, res, next) => controller.create(req, res, next));
 
 /**
  * @swagger
@@ -52,7 +59,7 @@ router.post("/", (req, res) => controller.create(req, res));
  *       200:
  *         description: List of gyms
  */
-router.get("/", (req, res) => controller.list(req, res));
+router.get("/", (req, res, next) => controller.list(req, res, next));
 
 /**
  * @swagger
@@ -70,7 +77,7 @@ router.get("/", (req, res) => controller.list(req, res));
  *       200:
  *         description: Gym details
  */
-router.get("/:id", (req, res) => controller.get(req, res));
+router.get("/:id", (req, res, next) => controller.get(req, res, next));
 
 /**
  * @swagger
@@ -88,18 +95,6 @@ router.get("/:id", (req, res) => controller.get(req, res));
  *       200:
  *         description: Users in this gym
  */
-router.get("/:id/users", (req, res) => controller.listUsers(req, res));
-
-/**
- * @swagger
- * /gyms/available/spots:
- *   get:
- *     summary: List gyms with available spots
- *     tags: [Gyms]
- *     responses:
- *       200:
- *         description: Gyms sorted by remaining capacity
- */
-router.get("/available/spots", (req, res) => controller.listAvailable(req, res));
+router.get("/:id/users", (req, res, next) => controller.listUsers(req, res, next));
 
 export default router;

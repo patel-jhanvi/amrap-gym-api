@@ -1,29 +1,25 @@
-import { Request, Response } from "express";
+import { injectable, inject } from "tsyringe";
+import { Request, Response, NextFunction } from "express";
+import { TOKENS } from "../../../infrastructure/di/tokens";
 
 import { CreateUser } from "../../../application/use-cases/CreateUser";
+import { UpdateUser } from "../../../application/use-cases/UpdateUser";
+import { ListUserGyms } from "../../../application/use-cases/ListUserGyms";
 
 import { IUserRepository } from "../../../domain/repositories/IUserRepository";
-import { IMembershipRepository } from "../../../domain/repositories/IMembershipRepository";
-import { IGymRepository } from "../../../domain/repositories/IGymRepository";
 
-import { ListUserGyms } from "../../../application/use-cases/ListUserGyms";
-import { UpdateUser } from "../../../application/use-cases/UpdateUser";
-
-import { AppError } from "../../../application/errors/AppError";
-
+@injectable()
 export class UserController {
     constructor(
-        private userRepo: IUserRepository,
-        private membershipRepo: IMembershipRepository,
-        private gymRepo: IGymRepository
+        @inject(TOKENS.CreateUser) private createUserUseCase: CreateUser,
+        @inject(TOKENS.UpdateUser) private updateUserUseCase: UpdateUser,
+        @inject(TOKENS.ListUserGyms) private listUserGymsUseCase: ListUserGyms,
+        @inject(TOKENS.UserRepository) private userRepo: IUserRepository
     ) { }
 
-
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const useCase = new CreateUser(this.userRepo);
-
-            const user = await useCase.execute({
+            const user = await this.createUserUseCase.execute({
                 name: req.body.name,
                 email: req.body.email,
                 dateOfBirth: new Date(req.body.dateOfBirth),
@@ -31,47 +27,33 @@ export class UserController {
             });
 
             return res.status(201).json(user);
-
         } catch (err: any) {
-            if (err instanceof AppError) {
-                return res.status(err.statusCode).json({ error: err.message });
-            }
-
-            return res.status(500).json({ error: "Internal server error" });
+            next(err);
         }
     }
 
-    async list(req: Request, res: Response) {
+    async list(req: Request, res: Response, next: NextFunction) {
         try {
             const users = await this.userRepo.findAll();
             return res.json(users);
         } catch (err: any) {
-            return res.status(500).json({ error: err.message });
+            next(err);
         }
     }
 
-    async listGyms(req: Request, res: Response) {
+    async listGyms(req: Request, res: Response, next: NextFunction) {
         try {
             const userId = req.params.id;
-
-            const useCase = new ListUserGyms(this.membershipRepo, this.gymRepo);
-            const gyms = await useCase.execute(userId);
-
+            const gyms = await this.listUserGymsUseCase.execute(userId);
             return res.json(gyms);
-
         } catch (err: any) {
-            if (err instanceof AppError) {
-                return res.status(err.statusCode).json({ error: err.message });
-            }
-
-            return res.status(500).json({ error: "Internal server error" });
+            next(err);
         }
     }
 
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-
             const user = await this.userRepo.findById(id);
 
             if (!user) {
@@ -79,20 +61,17 @@ export class UserController {
             }
 
             return res.json(user);
-
         } catch (err: any) {
-            return res.status(500).json({ error: "Internal server error" });
+            next(err);
         }
     }
 
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
             const { name, email, dateOfBirth, fitnessGoal } = req.body;
 
-            const useCase = new UpdateUser(this.userRepo);
-
-            const updated = await useCase.execute(id, {
+            const updated = await this.updateUserUseCase.execute(id, {
                 name,
                 email,
                 dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : undefined,
@@ -100,14 +79,8 @@ export class UserController {
             });
 
             return res.json(updated);
-
         } catch (err: any) {
-            if (err instanceof AppError) {
-                return res.status(err.statusCode).json({ error: err.message });
-            }
-
-            return res.status(500).json({ error: "Internal server error" });
+            next(err);
         }
     }
-
 }

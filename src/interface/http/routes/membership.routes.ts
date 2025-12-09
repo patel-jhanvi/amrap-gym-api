@@ -1,19 +1,12 @@
 import { Router } from "express";
+import { container } from "../../../infrastructure/di/container";
 import { MembershipController } from "../controllers/MembershipController";
-import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
-import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
-import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
-
-const membershipRepo = new PrismaMembershipRepository();
-const userRepo = new PrismaUserRepository();
-const gymRepo = new PrismaGymRepository();
 
 const router = Router();
-const controller = new MembershipController(
-    membershipRepo,
-    userRepo,
-    gymRepo
-);
+
+// Resolve controller from DI container
+const controller = container.resolve(MembershipController);
+
 /**
  * @swagger
  * tags:
@@ -45,7 +38,7 @@ const controller = new MembershipController(
  *       201:
  *         description: User added to gym
  */
-router.post("/", (req, res) => controller.add(req, res));
+router.post("/", (req, res, next) => controller.add(req, res, next));
 
 /**
  * @swagger
@@ -71,6 +64,6 @@ router.post("/", (req, res) => controller.add(req, res));
  *       200:
  *         description: User removed from gym
  */
-router.delete("/", (req, res) => controller.remove(req, res));
+router.delete("/", (req, res, next) => controller.remove(req, res, next));
 
 export default router;

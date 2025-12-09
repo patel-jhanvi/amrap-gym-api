@@ -1,9 +1,14 @@
+import { injectable, inject } from "tsyringe";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { AppError } from "../../application/errors/AppError";
 import { User } from "../../domain/entities/User";
+import { TOKENS } from "../../infrastructure/di/tokens";
 
+@injectable()
 export class UpdateUser {
-    constructor(private userRepo: IUserRepository) { }
+    constructor(
+        @inject(TOKENS.UserRepository) private userRepo: IUserRepository
+    ) { }
 
     async execute(id: string, data: any): Promise<User> {
         const existingUser = await this.userRepo.findById(id);

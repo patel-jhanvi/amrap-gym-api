@@ -1,17 +1,11 @@
 import { Router } from "express";
+import { container } from "../../../infrastructure/di/container";
 import { UserController } from "../controllers/UserController";
 
-import { PrismaUserRepository } from "../../../infrastructure/database/PrismaUserRepository";
-import { PrismaGymRepository } from "../../../infrastructure/database/PrismaGymRepository";
-import { PrismaMembershipRepository } from "../../../infrastructure/database/PrismaMembershipRepository";
-
-const userRepo = new PrismaUserRepository();
-const membershipRepo = new PrismaMembershipRepository();
-const gymRepo = new PrismaGymRepository();
-
-const controller = new UserController(userRepo, membershipRepo, gymRepo);
-
 const router = Router();
+
+// Resolve controller from DI container
+const controller = container.resolve(UserController);
 
 /**
  * @swagger
@@ -51,7 +45,7 @@ const router = Router();
  *       201:
  *         description: User created
  */
-router.post("/", (req, res) => controller.create(req, res));
+router.post("/", (req, res, next) => controller.create(req, res, next));
 
 /**
  * @swagger
@@ -63,7 +57,7 @@ router.post("/", (req, res) => controller.create(req, res));
  *       200:
  *         description: List of users
  */
-router.get("/", (req, res) => controller.list(req, res));
+router.get("/", (req, res, next) => controller.list(req, res, next));
 
 /**
  * @swagger
@@ -81,7 +75,7 @@ router.get("/", (req, res) => controller.list(req, res));
  *       200:
  *         description: User details
  */
-router.get("/:id", (req, res) => controller.get(req, res));
+router.get("/:id", (req, res, next) => controller.get(req, res, next));
 
 /**
  * @swagger
@@ -99,7 +93,7 @@ router.get("/:id", (req, res) => controller.get(req, res));
  *       200:
  *         description: List of gyms for this user
  */
-router.get("/:id/gyms", (req, res) => controller.listGyms(req, res));
+router.get("/:id/gyms", (req, res, next) => controller.listGyms(req, res, next));
 
 /**
  * @swagger
@@ -133,6 +127,6 @@ router.get("/:id/gyms", (req, res) => controller.listGyms(req, res));
  *       200:
  *         description: User updated
  */
-router.put("/:id", (req, res) => controller.update(req, res));
+router.put("/:id", (req, res, next) => controller.update(req, res, next));
 
 export default router;
